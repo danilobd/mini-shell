@@ -1,0 +1,8 @@
+MOA a,b
+MOV c,d
+MOV e,f
+MOV g,h
+MOV i,j
+MOV k,l
+MOV m,n
+MOV o,p

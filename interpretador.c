@@ -25,8 +25,12 @@ int main(int argc, char const *argv[])
 	int fileExist = VerificaComando(path);
 
 
-	if(fileExist == 0)
-		printf("'%s' não encontrado\n", comando); //SE NÃO EXISTIR, DA COMANDO NÃO ENCONTRADO
+	if(fileExist == 0){
+		if(argv[2])
+			printf("'%s' não definido na linha %s\n", comando, argv[2]); //SE NÃO EXISTIR, DA COMANDO NÃO ENCONTRADO
+		else	
+			printf("'%s' não definido\n", comando); //SE NÃO EXISTIR, DA COMANDO NÃO ENCONTRADO
+	}
 	else
 		execl(path, comando, parametro, NULL); //SE EXISTIR, EXECUTA AQUELE ARQUIVO
 
