@@ -51,7 +51,7 @@ int main(int argc, char const *argv[])
 	printf("                     ###################X##X\n");
 	printf("                    *###########X**\n");
 	printf("                     X####XX\n");
-	printf("\n 					COELHO ALUSINADO");
+	printf("\n 					COELHO ALUCINADO");
 	printf(" \n");
 	printf(" \n");
 

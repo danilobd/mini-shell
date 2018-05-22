@@ -1,71 +1,36 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
-
-void Corta(char *aux, char *comando, char *parametro);
-int VerificaComando(char *path);
+#include "functions/coisas.h"
 
 int main(int argc, char const *argv[])
 {
 	
 	char comando[75], parametro[75];
-	char aux[150];
-	char path[79] = "functions/";
+	char argNovo[150];
+	char path[] 	= "functions/"; // Local onde fica as funções
+	char divideEm[] = " ";
 
-	//TRANSFERE O COMANDO INTEIRO PARA UMA VARIAVEL AUXILIAR
-	strcpy(aux, argv[1]);
+	// Transfere o comando inteiro para uma variavel auxiliar, porque não funciona passando direto
+	strcpy(argNovo, argv[1]);
 
-	//CHAMA A FUNÇÃO PARA SEPARAR O COMANDO DO parametro: 'mov' e 'a/b'
-	Corta(aux, comando, parametro);
+	// Chama a função para separar o comando do parametro: 'mov' e 'a/b'
+	Corta(argNovo, comando, parametro, divideEm);
 
-	//PEGA O COMANDO E JUNTA COM 'functions/': 'functions/mov'
-	strcat(path, comando);
+	// Chama a função que verifica se tem um arquivo na pasta $path com o nome do comando
+	if(!VerificaComando(path, comando)){
 
-	//CHAMA A FUNÇÃO QUE VERIFICA SE TEM UM ARQUIVO NA PASTA functions COM O NOME DO COMANDO
-	int fileExist = VerificaComando(path);
-
-
-	if(fileExist == 0){
-		if(argv[2])
-			printf("'%s' não definido na linha %s\n", comando, argv[2]); //SE NÃO EXISTIR, DA COMANDO NÃO ENCONTRADO
+		if(argv[2]) // Se na 3º possição do argv vier a o número de linha (quando é no console)
+			printf("'%s' não definido na linha %s\n", comando, argv[2]); //SE NÃO EXISTIR, DA COMANDO NÃO ENCONTRADO COM A LINHA DO COMANDO NO ARQUIVO
 		else	
-			printf("'%s' não definido\n", comando); //SE NÃO EXISTIR, DA COMANDO NÃO ENCONTRADO
+			printf("'%s' não definido\n", comando); // Se não existir, da comando não encontrado
+		
 	}
-	else
-		execl(path, comando, parametro, NULL); //SE EXISTIR, EXECUTA AQUELE ARQUIVO
-
-}
-
-/*DIVITE A STRING POR ESPAÇOS*/
-void Corta(char *aux, char *comando, char *parametro){
-
-	int i=0;
-	
-	char *String = strtok(aux," ");
-
-	while(String){
-
-	    if(i == 0)
-	    	strcpy(comando, String);
-	    else if(i == 1)
-	    	strcpy(parametro, String);
-
-	    String = strtok(NULL, " ");
-	    i++;
-	}
-
-}
-
-/*VERIFICA SE O ARQUIVO EXISTE*/
-int VerificaComando(char *path){
-
-	FILE *pointFile = fopen(path, "r");
-			
-	if (!pointFile)
-		return 0;
 	else{
-		return 1;
-		fclose(pointFile);
+
+		// Pasta / nome do programa - comando (nome do programa) - parametros do comando
+		RodaProcesso(path, comando, parametro);
+
 	}
 
 }
